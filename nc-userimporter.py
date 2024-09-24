@@ -258,12 +258,19 @@ qr = qrcode.QRCode(
     border=4,
 )
 
-# Function: Generate random password
-# This will generate a random password with 1 random uppercase letter, 3 random lowercase letters,
-# 3 random digits, and 1 random special character--this can be adjusted as needed.
-# Then it combines each random character and creates a random order.
-# TODO update documentation
+
 def pwgenerator(length):
+    """Password Generator
+
+    Args:
+        length (int): Number of characters the generated password will have 
+
+    Raises:
+        ValueError: Raises a value error if `length`is below a minimum threshold to fulfill requirements
+
+    Returns:
+        str: Generated password, consisting of a randomized combination of upper- and lowercase letters, numbers and symbols. Each exists at least once
+    """
     if length < 4:
         raise ValueError("Password length should be at least 4 to include all character types.")
 
