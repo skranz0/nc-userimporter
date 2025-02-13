@@ -1,5 +1,5 @@
 """
-This package contains several utility modules for managing Nextcloud user imports, 
+This package contains several utility modules for managing Nextcloud user imports,
 password generation, CSV handling, output generation, and API communication with Nextcloud.
 
 Modules included:
@@ -15,8 +15,15 @@ Modules included:
 from .config import ConfigReader  # Handles reading and parsing XML configuration files
 from .password import PasswordGenerator  # Generates secure random passwords
 from .csv_handler import read_csv  # Reads and parses CSV files for user imports
-from .output_handler import generate_qr_code, generate_pdf  # Generates QR codes and PDFs for user output
-from .mapping import MAPPING  # Provides a dictionary for special character mapping (e.g., for username sanitization)
-from .nextcloud_api import NextcloudAPI  # Manages interaction with the Nextcloud APIfrom .user_sync import NextcloudUserManager
+from .output_handler import (
+    generate_qr_code,
+    generate_pdf,
+)  # Generates QR codes and PDFs for user output
+from .mapping import (
+    MAPPING,
+)  # Provides a dictionary for special character mapping (e.g., for username sanitization)
+from .nextcloud_api import (
+    NextcloudAPI,
+)  # Manages interaction with the Nextcloud APIfrom .user_sync import NextcloudUserManager
 from .user_sync import NextcloudUserManager
 from .language_loader import load_language

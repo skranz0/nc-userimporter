@@ -2,7 +2,8 @@ import csv
 import codecs
 import logging
 
-def read_csv(filepath, delimiter=','):
+
+def read_csv(filepath, delimiter=","):
     """
     Reads a CSV file and returns the data as a list of dictionaries.
     Each dictionary represents a row with keys as the CSV header.
@@ -13,16 +14,18 @@ def read_csv(filepath, delimiter=','):
     """
     try:
         # Open the CSV file with UTF-8 encoding to ensure proper handling of special characters
-        with codecs.open(filepath, mode='r', encoding='utf-8') as csvfile:
+        with codecs.open(filepath, mode="r", encoding="utf-8") as csvfile:
             reader = csv.DictReader(csvfile, delimiter=delimiter)
-            
+
             # Read all rows into a list of dictionaries
             data = [row for row in reader]
-            
+
             # Check if the CSV file is empty or improperly formatted
             if not data:
-                logging.warning(f"CSV file '{filepath}' is empty or improperly formatted.")
-            
+                logging.warning(
+                    f"CSV file '{filepath}' is empty or improperly formatted."
+                )
+
             return data
 
     except FileNotFoundError as e:
@@ -37,5 +40,7 @@ def read_csv(filepath, delimiter=','):
 
     except Exception as e:
         # Catch and log any other unexpected exceptions
-        logging.error(f"An unexpected error occurred while reading the CSV file '{filepath}': {e}")
+        logging.error(
+            f"An unexpected error occurred while reading the CSV file '{filepath}': {e}"
+        )
         raise
