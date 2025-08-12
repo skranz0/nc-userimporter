@@ -2,7 +2,7 @@
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-This tool creates Nextcloud users from a CSV file, which you exported from some other software or created with a spreadsheet software.
+This tool synchronizes (add, update, delete) Nextcloud users from a CSV file, which you exported from some other software or created with a spreadsheet software.
 
 ## Instructions
 

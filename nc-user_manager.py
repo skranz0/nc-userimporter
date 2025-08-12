@@ -177,33 +177,19 @@ def create_users_and_groups(csv_data, config, nc_api):
 
     for row in csv_data:
         try:
-            username = row["username"]
-            password = row["password"]
-            displayname = row["displayname"] if row["displayname"] else username
-            email = row["email"]
-            groups = row["groups"].split(config["group_delimiter"])
-            subadmin = (
-                row["subadmin"].split(config["group_delimiter"])
-                if row["subadmin"]
-                else []
-            )
-            quota = row.get("quota", "1GB")
+            username = row['username']
+            password = row['password']
+            displayname = row['displayname'] if row['displayname'] else username
+            email = row['email']
+            groups = row['groups'].split(config['group_delimiter'])
+            subadmin = row['subadmin'].split(config['group_delimiter']) if row['subadmin'] else []
+            quota = row.get('quota', '1GB')
 
-            if not password and config["generate_password"] == "yes":
-                password = PasswordGenerator(config["password_length"])
+            if not password and config['generate_password'] == 'yes':
+                password = PasswordGenerator(config['password_length']).generate()
 
-            logging.info(
-                f"Creating user '{username}' with display name '{displayname}' and email '{email}'"
-            )
-            response = nc_api.add_user(
-                username,
-                password,
-                displayname,
-                email,
-                groups,
-                quota,
-                config["user_language"],
-            )
+            logging.info(f"Creating user '{username}' with display name '{displayname}' and email '{email}'")
+            response = nc_api.add_user(username, password, displayname, email, groups, quota, config['user_language'])
 
             if response:
                 logging.info(f"User '{username}' created successfully.")
