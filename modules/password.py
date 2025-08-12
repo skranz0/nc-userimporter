@@ -1,18 +1,19 @@
 import random
 import string
 
+
 class PasswordGenerator:
     """
     A class to generate random passwords with a specified length.
-    
-    The generated password will always include at least one uppercase letter, 
+
+    The generated password will always include at least one uppercase letter,
     one lowercase letter, one digit, and one special character to ensure complexity.
     """
 
     def __init__(self, length=8):
         """
         Initializes the PasswordGenerator with the desired password length.
-        
+
         Args:
             length (int): The length of the password to be generated. Defaults to 8.
                           Must be at least 4 to ensure inclusion of all character types.
@@ -21,28 +22,30 @@ class PasswordGenerator:
             ValueError: If the provided password length is less than 4.
         """
         if length < 4:
-            raise ValueError("Password length should be at least 4 to include all character types.")
+            raise ValueError(
+                "Password length should be at least 4 to include all character types."
+            )
         self.length = length
 
     def generate(self):
         """
         Generates a random password with the specified length.
-        
+
         The password will always contain at least one character from each of the following:
         - Uppercase letters
         - Lowercase letters
         - Digits
         - Special characters
-        
+
         Returns:
             str: A randomly generated password.
         """
         # Ensure the password contains at least one character from each category
         password = [
-            random.choice(string.ascii_uppercase),   # At least one uppercase letter
-            random.choice(string.ascii_lowercase),   # At least one lowercase letter
-            random.choice(string.digits),            # At least one digit
-            random.choice(string.punctuation)        # At least one special character
+            random.choice(string.ascii_uppercase),  # At least one uppercase letter
+            random.choice(string.ascii_lowercase),  # At least one lowercase letter
+            random.choice(string.digits),  # At least one digit
+            random.choice(string.punctuation),  # At least one special character
         ]
 
         # Pool of all possible characters
@@ -55,4 +58,4 @@ class PasswordGenerator:
         random.shuffle(password)
 
         # Return the final password as a string
-        return ''.join(password)
+        return "".join(password)

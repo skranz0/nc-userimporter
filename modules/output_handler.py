@@ -9,6 +9,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import colors
 
+
 def generate_qr_code(data, output_dir, filename):
     """
     Generates a QR code based on provided data and saves it as an image file.
@@ -25,24 +26,28 @@ def generate_qr_code(data, output_dir, filename):
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
-        border=4
+        border=4,
     )
     qr.add_data(data)
     img = qr.make_image(fill_color="black", back_color="white")
-    
+
     # Save QR code image as a .jpg file
     img_path = os.path.join(output_dir, f"{filename}.jpg")
     img.save(img_path)
-    
+
     # Clear the QR object for reuse
     qr.clear()
-    
+
     return img_path
+
 
 nclogo = "assets/Nextcloud_Logo.jpg"  # Nextcloud logo
 im = Image(nclogo, 150, 106)
 
-def generate_pdf(user_data, qr_code_path, output_filepath, config_ncUrl, lang, multi_user=False):
+
+def generate_pdf(
+    user_data, qr_code_path, output_filepath, config_ncUrl, lang, multi_user=False
+):
     """
     Generates a PDF for either a single user or multiple users.
     
@@ -54,6 +59,7 @@ def generate_pdf(user_data, qr_code_path, output_filepath, config_ncUrl, lang, m
         lang (dict): The dictionary containing translations for output text.
         multi_user (bool): Whether to generate a multi-user PDF.
     """
+
     # Use DejaVuSans for default font
     font_path = os.path.join(os.path.dirname(__file__), '../assets/IBMPlexSans-Regular.ttf')
     if os.path.exists(font_path):
@@ -73,15 +79,22 @@ def generate_pdf(user_data, qr_code_path, output_filepath, config_ncUrl, lang, m
     styles['Heading1'].fontName = custom_font
 
     if multi_user:
-        for user in user_data['users']:
-            _build_single_user_section(story, styles, user, user.get('qr_code_path'), config_ncUrl, lang)
+        for user in user_data["users"]:
+            _build_single_user_section(
+                story, styles, user, user.get("qr_code_path"), config_ncUrl, lang
+            )
             story.append(PageBreak())  # Add page break between users
     else:
-        _build_single_user_section(story, styles, user_data, qr_code_path, config_ncUrl, lang)
+        _build_single_user_section(
+            story, styles, user_data, qr_code_path, config_ncUrl, lang
+        )
 
     doc.build(story)
 
-def _build_single_user_section(story, styles, user_data, qr_code_path, config_ncUrl, lang):
+
+def _build_single_user_section(
+    story, styles, user_data, qr_code_path, config_ncUrl, lang
+):
     """
     Helper function to build the PDF content for a single user.
 
@@ -93,15 +106,15 @@ def _build_single_user_section(story, styles, user_data, qr_code_path, config_nc
         config_ncUrl (str): The Nextcloud URL for the user.
         lang (dict): The dictionary containing translations for output text.
     """
-    
+
     # Add Nextcloud logo at the top of the page
     story.append(im)
     story.append(Spacer(1, 12))
-    
+
     # Greeting and account creation message
-    displayname = user_data.get('displayname', '').strip()  # Entferne Leerzeichen
+    displayname = user_data.get("displayname", "").strip()  # Entferne Leerzeichen
     if not displayname:
-        displayname = user_data['username']  # Fallback auf den Benutzernamen
+        displayname = user_data["username"]  # Fallback auf den Benutzernamen
 
     # Add greeting
     ptext = f"<font size=14>{lang.get('output_handler_greeting', 'Missing translation string for: output_handler_greeting')} {displayname},</font>"
@@ -169,7 +182,10 @@ def _build_single_user_section(story, styles, user_data, qr_code_path, config_nc
 
     story.append(Spacer(1, 24))
 
-def _build_single_user_pdf(story, styles, user_data, qr_code_path, nclogo, config_ncUrl, lang):
+
+def _build_single_user_pdf(
+    story, styles, user_data, qr_code_path, nclogo, config_ncUrl, lang
+):
     """
     Builds the PDF structure for a single user, including the Nextcloud logo.
 
@@ -182,4 +198,6 @@ def _build_single_user_pdf(story, styles, user_data, qr_code_path, nclogo, confi
         config_ncUrl (str): The Nextcloud URL for the user.
         lang (dict): The dictionary containing translations for output text.
     """
-    _build_single_user_section(story, styles, user_data, qr_code_path, config_ncUrl, lang)
+    _build_single_user_section(
+        story, styles, user_data, qr_code_path, config_ncUrl, lang
+    )
